@@ -17,7 +17,7 @@ services:
     env_file:
       - environment.env
     volumes:
-      - ./volumes/server-1:/bitnami/kafka
+      - kafka-server-1:/bitnami/kafka
 
   kafka-2:
     image: bitnami/kafka:latest
@@ -36,7 +36,7 @@ services:
     env_file:
       - environment.env
     volumes:
-      - ./volumes/server-2:/bitnami/kafka
+      - kafka-server-2:/bitnami/kafka
 
   kafka-3:
     image: bitnami/kafka:latest
@@ -55,4 +55,9 @@ services:
     env_file:
       - environment.env
     volumes:
-      - ./volumes/server-3:/bitnami/kafka
+      - kafka-server-3:/bitnami/kafka
+
+volumes:
+  kafka-server-1:
+  kafka-server-2:
+  kafka-server-3:
