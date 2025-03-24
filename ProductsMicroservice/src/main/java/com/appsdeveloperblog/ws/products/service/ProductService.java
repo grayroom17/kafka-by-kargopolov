@@ -17,7 +17,7 @@ import static com.appsdeveloperblog.ws.products.config.KafkaTopics.PRODUCT_CRATE
 public class ProductService {
 
     private final KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate;
-    private final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
     public ProductService(KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
@@ -31,12 +31,12 @@ public class ProductService {
                 kafkaTemplate.send(PRODUCT_CRATED_EVENTS_TOPIC, id, event);
         future.whenComplete((result, ex) -> {
             if (ex != null) {
-                LOGGER.error("Failed to send product crated event: " + ex.getMessage());
+                LOGGER.error("***** Failed to send product crated event: {}", ex.getMessage());
             } else {
-                LOGGER.info("Successfully sent product crated event: " + result.getRecordMetadata());
+                LOGGER.info("***** Successfully sent product crated event: {}", result.getRecordMetadata());
             }
         });
-        future.join();
+        LOGGER.info("***** Returning product id: {}", id);
         return id;
     }
 
