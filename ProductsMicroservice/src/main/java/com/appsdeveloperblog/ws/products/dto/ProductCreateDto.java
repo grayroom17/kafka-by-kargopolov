@@ -3,9 +3,10 @@ package com.appsdeveloperblog.ws.products.dto;
 import java.math.BigDecimal;
 
 public class ProductCreateDto {
-    String title;
-    BigDecimal price;
-    Integer quantity;
+
+    private   String title;
+    private  BigDecimal price;
+    private  Integer quantity;
 
     public String getTitle() {
         return title;
