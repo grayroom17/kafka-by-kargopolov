@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static com.appsdeveloperblog.ws.products.config.KafkaTopics.PRODUCT_CRATED_EVENTS_TOPIC;
 
@@ -36,6 +37,19 @@ public class ProductService {
                 LOGGER.info("***** Successfully sent product crated event: {}", result.getRecordMetadata());
             }
         });
+        LOGGER.info("***** Returning product id: {}", id);
+        return id;
+    }
+
+    public String createProductSync(ProductCreateDto dto) throws ExecutionException, InterruptedException {
+        String id = UUID.randomUUID().toString();
+        //Persist Product Details into database table before publishing an Event
+        ProductCreatedEvent event = new ProductCreatedEvent(id, dto.getTitle(), dto.getPrice(), dto.getQuantity());
+        LOGGER.info("***** Before publishing a ProductCreatedEvent.");
+        SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send(PRODUCT_CRATED_EVENTS_TOPIC, id, event).get();
+        LOGGER.info("***** Topic : {}",result.getRecordMetadata().topic());
+        LOGGER.info("***** Partition : {}",result.getRecordMetadata().partition());
+        LOGGER.info("***** Offset : {}",result.getRecordMetadata().offset());
         LOGGER.info("***** Returning product id: {}", id);
         return id;
     }
