@@ -41,6 +41,10 @@ public class KafkaConfig {
         Map<String, Object> configs = properties.buildProducerProperties();
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+//        configs.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+//        configs.put(ProducerConfig.ACKS_CONFIG, "all");
+//        configs.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 5);
+//        configs.put(ProducerConfig.RETRIES_CONFIG, 10);
         return configs;
     }
 
