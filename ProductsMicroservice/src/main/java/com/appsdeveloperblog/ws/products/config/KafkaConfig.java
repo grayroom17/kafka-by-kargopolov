@@ -1,6 +1,6 @@
 package com.appsdeveloperblog.ws.products.config;
 
-import com.appsdeveloperblog.ws.products.event.ProductCreatedEvent;
+import com.appsdeveloperblog.ws.core.event.ProductCreatedEvent;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -15,7 +15,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.Map;
 
-import static com.appsdeveloperblog.ws.products.config.KafkaTopics.PRODUCT_CRATED_EVENTS_TOPIC;
+import static com.appsdeveloperblog.ws.core.config.KafkaTopics.PRODUCT_CRATED_EVENTS_TOPIC;
 
 @Configuration
 public class KafkaConfig {
