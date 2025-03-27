@@ -1,4 +1,4 @@
-package com.appsdeveloperblog.ws.products.config;
+package com.appsdeveloperblog.ws.core.config;
 
 public class KafkaTopics {
     private KafkaTopics() {

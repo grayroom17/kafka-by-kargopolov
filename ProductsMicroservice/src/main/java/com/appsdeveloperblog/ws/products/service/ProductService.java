@@ -1,7 +1,7 @@
 package com.appsdeveloperblog.ws.products.service;
 
+import com.appsdeveloperblog.ws.core.event.ProductCreatedEvent;
 import com.appsdeveloperblog.ws.products.dto.ProductCreateDto;
-import com.appsdeveloperblog.ws.products.event.ProductCreatedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static com.appsdeveloperblog.ws.products.config.KafkaTopics.PRODUCT_CRATED_EVENTS_TOPIC;
+import static com.appsdeveloperblog.ws.core.config.KafkaTopics.PRODUCT_CRATED_EVENTS_TOPIC;
 
 @Service
 public class ProductService {
@@ -47,9 +47,9 @@ public class ProductService {
         ProductCreatedEvent event = new ProductCreatedEvent(id, dto.getTitle(), dto.getPrice(), dto.getQuantity());
         LOGGER.info("***** Before publishing a ProductCreatedEvent.");
         SendResult<String, ProductCreatedEvent> result = kafkaTemplate.send(PRODUCT_CRATED_EVENTS_TOPIC, id, event).get();
-        LOGGER.info("***** Topic : {}",result.getRecordMetadata().topic());
-        LOGGER.info("***** Partition : {}",result.getRecordMetadata().partition());
-        LOGGER.info("***** Offset : {}",result.getRecordMetadata().offset());
+        LOGGER.info("***** Topic : {}", result.getRecordMetadata().topic());
+        LOGGER.info("***** Partition : {}", result.getRecordMetadata().partition());
+        LOGGER.info("***** Offset : {}", result.getRecordMetadata().offset());
         LOGGER.info("***** Returning product id: {}", id);
         return id;
     }
