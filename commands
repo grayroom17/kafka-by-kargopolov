@@ -70,3 +70,10 @@ docker-compose exec kafka-1 `
 --property print.key=true `
 --property print.value=false `
 --bootstrap-server host.docker.internal:9092,host.docker.internal:9094,host.docker.internal:9096
+
+docker-compose exec kafka-1 `
+/opt/bitnami/kafka/bin/kafka-console-consumer.sh `
+--from-beginning `
+--topic product-crated-events-topic-dlt `
+--property print.key=true `
+--bootstrap-server host.docker.internal:9092,host.docker.internal:9094,host.docker.internal:9096
