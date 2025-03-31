@@ -1,5 +1,6 @@
 package com.appsdeveloperblog.ws.emailnotification.config;
 
+import com.appsdeveloperblog.ws.emailnotification.error.NotRetryableException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -49,6 +50,8 @@ public class KafkaConfig {
                                                                                           KafkaTemplate<?, ?> kafkaTemplate) {
         DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(kafkaTemplate);
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(recoverer);
+        errorHandler.addNotRetryableExceptions(NotRetryableException.class);
+
         ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         factory.setCommonErrorHandler(errorHandler);
