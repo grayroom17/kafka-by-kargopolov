@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import static org.springframework.http.HttpMethod.GET;
 
 @Component
-@KafkaListener(topics = KafkaTopics.PRODUCT_CRATED_EVENTS_TOPIC)
+@KafkaListener(topics = KafkaTopics.PRODUCT_CRATED_EVENTS_TOPIC/*, groupId = PRODUCT_CRATED_EVENTS_GROUP*/)
 public class ProductCreatedEventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductCreatedEventHandler.class);
@@ -30,7 +30,7 @@ public class ProductCreatedEventHandler {
 
     @KafkaHandler
     public void handle(ProductCreatedEvent productCreatedEvent) {
-        LOGGER.info("***** Received product created event: {}", productCreatedEvent.getTitle());
+        LOGGER.info("***** Received product created event: {} with productId: {}", productCreatedEvent.getTitle(), productCreatedEvent.getId());
         try {
             String url = "http://localhost:8082/response/200";
             ResponseEntity<String> response = restTemplate.exchange(url, GET, null, String.class);
