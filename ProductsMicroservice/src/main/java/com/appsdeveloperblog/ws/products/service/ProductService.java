@@ -2,6 +2,7 @@ package com.appsdeveloperblog.ws.products.service;
 
 import com.appsdeveloperblog.ws.core.event.ProductCreatedEvent;
 import com.appsdeveloperblog.ws.products.dto.ProductCreateDto;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -28,8 +29,11 @@ public class ProductService {
         String id = UUID.randomUUID().toString();
         //Persist Product Details into database table before publishing an Event
         ProductCreatedEvent event = new ProductCreatedEvent(id, dto.getTitle(), dto.getPrice(), dto.getQuantity());
+        ProducerRecord<String, ProductCreatedEvent> producerRecord =
+                new ProducerRecord<>(PRODUCT_CRATED_EVENTS_TOPIC, id, event);
+        producerRecord.headers().add("messageId", UUID.randomUUID().toString().getBytes());
         CompletableFuture<SendResult<String, ProductCreatedEvent>> future =
-                kafkaTemplate.send(PRODUCT_CRATED_EVENTS_TOPIC, id, event);
+                kafkaTemplate.send(producerRecord);
         future.whenComplete((result, ex) -> {
             if (ex != null) {
                 LOGGER.error("***** Failed to send product crated event: {}", ex.getMessage());
