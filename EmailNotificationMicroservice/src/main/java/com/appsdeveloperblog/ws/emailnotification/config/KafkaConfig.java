@@ -1,7 +1,7 @@
 package com.appsdeveloperblog.ws.emailnotification.config;
 
-import com.appsdeveloperblog.ws.emailnotification.error.NotRetryableException;
-import com.appsdeveloperblog.ws.emailnotification.error.RetryableException;
+import com.appsdeveloperblog.ws.core.error.NotRetryableException;
+import com.appsdeveloperblog.ws.core.error.RetryableException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;

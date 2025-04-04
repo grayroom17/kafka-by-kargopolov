@@ -1,4 +1,4 @@
-package com.appsdeveloperblog.ws.emailnotification.error;
+package com.appsdeveloperblog.ws.core.error;
 
 public class NotRetryableException extends RuntimeException {
 
