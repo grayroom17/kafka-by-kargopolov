@@ -1,0 +1,12 @@
+server:
+  port: 0
+
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092,localhost:9094,localhost:9096
+      group-id: amount-deposit-event
+      properties:
+        spring.json.trusted.packages: com.appsdeveloperblog.*
+    producer:
+      bootstrap-servers: localhost:9092,localhost:9094,localhost:9096
