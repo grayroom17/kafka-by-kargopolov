@@ -18,7 +18,6 @@ public class TransferEntity implements Serializable {
     private static final long serialVersionUID = -6202121587624962351L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private String transferId;
 

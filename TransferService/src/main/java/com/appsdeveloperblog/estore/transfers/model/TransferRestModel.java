@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class TransferRestModel {
     private String senderId;
-    private String recepientId;
+    private String recipientId;
     private BigDecimal amount;
 
     public BigDecimal getAmount() {
@@ -19,11 +19,11 @@ public class TransferRestModel {
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
-    public String getRecepientId() {
-        return recepientId;
+    public String getRecipientId() {
+        return recipientId;
     }
-    public void setRecepientId(String recepientId) {
-        this.recepientId = recepientId;
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
     }
 
     

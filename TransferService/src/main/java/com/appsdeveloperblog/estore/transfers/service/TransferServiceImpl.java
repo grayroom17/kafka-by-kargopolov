@@ -43,9 +43,9 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public boolean transfer(TransferRestModel transferRestModel) {
         WithdrawalRequestedEvent withdrawalEvent = new WithdrawalRequestedEvent(transferRestModel.getSenderId(),
-                transferRestModel.getRecepientId(), transferRestModel.getAmount());
+                transferRestModel.getRecipientId(), transferRestModel.getAmount());
         DepositRequestedEvent depositEvent = new DepositRequestedEvent(transferRestModel.getSenderId(),
-                transferRestModel.getRecepientId(), transferRestModel.getAmount());
+                transferRestModel.getRecipientId(), transferRestModel.getAmount());
 
         try {
             TransferEntity transferEntity = new TransferEntity();

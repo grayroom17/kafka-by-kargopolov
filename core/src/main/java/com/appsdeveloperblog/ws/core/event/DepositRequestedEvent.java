@@ -5,16 +5,16 @@ import java.math.BigDecimal;
 public class DepositRequestedEvent {
     
     private String senderId;
-    private String recepientId;
+    private String recipientId;
     private BigDecimal amount;
 
     public DepositRequestedEvent() {
 
     }
 
-    public DepositRequestedEvent(String senderId, String recepientId, BigDecimal amount) {
+    public DepositRequestedEvent(String senderId, String recipientId, BigDecimal amount) {
         this.senderId = senderId;
-        this.recepientId = recepientId;
+        this.recipientId = recipientId;
         this.amount = amount;
     }
 
@@ -22,8 +22,8 @@ public class DepositRequestedEvent {
         return senderId;
     }
 
-    public String getRecepientId() {
-        return recepientId;
+    public String getRecipientId() {
+        return recipientId;
     }
 
     public BigDecimal getAmount() {
@@ -34,8 +34,8 @@ public class DepositRequestedEvent {
         this.senderId = senderId;
     }
 
-    public void setRecepientId(String recepientId) {
-        this.recepientId = recepientId;
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
     }
 
     public void setAmount(BigDecimal amount) {
