@@ -31,8 +31,10 @@ spring:
 
 logging:
   level:
-    org.springframework.kafka.transaction: DEBUG
-    org.springframework.transaction: TRACE
+    org.springframework.kafka.transaction.KafkaTransactionManager: DEBUG
+    org.springframework.transaction: DEBUG
+    org.apache.kafka.clients.producer.internals.TransactionManager: DEBUG
+    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
 
 withdraw-money-topic: withdraw-money-topic
 deposit-money-topic: deposit-money-topic
