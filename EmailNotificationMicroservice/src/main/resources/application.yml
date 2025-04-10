@@ -7,6 +7,7 @@ spring:
     consumer:
       bootstrap-servers: localhost:9092,localhost:9094,localhost:9096
       group-id: product-created-events
+      auto-offset-reset: earliest
 
   datasource:
     driver-class-name: org.h2.Driver
