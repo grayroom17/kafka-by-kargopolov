@@ -3,6 +3,7 @@ package com.appsdeveloperblog.orders.saga;
 import com.appsdeveloperblog.core.dto.commands.ApproveOrderCommand;
 import com.appsdeveloperblog.core.dto.commands.ProcessPaymentCommand;
 import com.appsdeveloperblog.core.dto.commands.ReserveProductCommand;
+import com.appsdeveloperblog.core.events.OrderApprovedEvent;
 import com.appsdeveloperblog.core.events.OrderCreatedEvent;
 import com.appsdeveloperblog.core.events.PaymentProcessedEvent;
 import com.appsdeveloperblog.core.events.ProductReservedEvent;
@@ -15,6 +16,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import static com.appsdeveloperblog.core.types.OrderStatus.APPROVED;
 import static com.appsdeveloperblog.core.types.OrderStatus.CREATED;
 
 @Component
@@ -63,6 +65,11 @@ public class OrderSaga {
         ApproveOrderCommand approveOrderCommand = new ApproveOrderCommand();
         BeanUtils.copyProperties(event, approveOrderCommand);
         kafkaTemplate.send(ordersCommandsTopicName, approveOrderCommand);
+    }
+
+    @KafkaHandler
+    public void handleEvent(@Payload OrderApprovedEvent event) {
+        orderHistoryService.add(event.getOrderId(), APPROVED);
     }
 
 }
