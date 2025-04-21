@@ -1,8 +1,10 @@
 package com.appsdeveloperblog.orders.saga;
 
+import com.appsdeveloperblog.core.dto.commands.ApproveOrderCommand;
 import com.appsdeveloperblog.core.dto.commands.ProcessPaymentCommand;
 import com.appsdeveloperblog.core.dto.commands.ReserveProductCommand;
 import com.appsdeveloperblog.core.events.OrderCreatedEvent;
+import com.appsdeveloperblog.core.events.PaymentProcessedEvent;
 import com.appsdeveloperblog.core.events.ProductReservedEvent;
 import com.appsdeveloperblog.orders.service.OrderHistoryService;
 import org.springframework.beans.BeanUtils;
@@ -18,22 +20,26 @@ import static com.appsdeveloperblog.core.types.OrderStatus.CREATED;
 @Component
 @KafkaListener(topics = {
         "${orders.events.topic.name}",
-        "${products.events.topic.name}"})
+        "${products.events.topic.name}",
+        "${payments.events.topic.name}"})
 public class OrderSaga {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final OrderHistoryService orderHistoryService;
     private final String productsCommandsTopicName;
     private final String paymentsCommandsTopicName;
+    private final String ordersCommandsTopicName;
 
     public OrderSaga(KafkaTemplate<String, Object> kafkaTemplate,
                      OrderHistoryService orderHistoryService,
                      @Value("${products.commands.topic.name}") String productsCommandsTopicName,
-                     @Value("${payments.commands.topic.name}") String paymentsCommandsTopicName) {
+                     @Value("${payments.commands.topic.name}") String paymentsCommandsTopicName,
+                     @Value("${orders.commands.topic.name}") String ordersCommandsTopicName) {
         this.kafkaTemplate = kafkaTemplate;
         this.productsCommandsTopicName = productsCommandsTopicName;
         this.orderHistoryService = orderHistoryService;
         this.paymentsCommandsTopicName = paymentsCommandsTopicName;
+        this.ordersCommandsTopicName = ordersCommandsTopicName;
     }
 
     @KafkaHandler
@@ -50,6 +56,13 @@ public class OrderSaga {
         ProcessPaymentCommand command = new ProcessPaymentCommand();
         BeanUtils.copyProperties(event, command);
         kafkaTemplate.send(paymentsCommandsTopicName, command);
+    }
+
+    @KafkaHandler
+    public void handleEvent(@Payload PaymentProcessedEvent event) {
+        ApproveOrderCommand approveOrderCommand = new ApproveOrderCommand();
+        BeanUtils.copyProperties(event, approveOrderCommand);
+        kafkaTemplate.send(ordersCommandsTopicName, approveOrderCommand);
     }
 
 }
