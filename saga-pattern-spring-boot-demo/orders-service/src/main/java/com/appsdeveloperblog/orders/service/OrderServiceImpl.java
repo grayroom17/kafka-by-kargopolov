@@ -62,4 +62,11 @@ public class OrderServiceImpl implements OrderService {
         kafkaTemplate.send(orderEventsTopicName, event);
     }
 
+    @Override
+    public void rejectOrder(UUID orderId) {
+        OrderEntity order = orderRepository.findById(orderId).orElseThrow();
+        order.setStatus(OrderStatus.REJECTED);
+        orderRepository.save(order);
+    }
+
 }
