@@ -1,10 +1,12 @@
 package com.appsdeveloperblog.orders.saga;
 
 import com.appsdeveloperblog.core.dto.commands.ApproveOrderCommand;
+import com.appsdeveloperblog.core.dto.commands.CancelProductReservationCommand;
 import com.appsdeveloperblog.core.dto.commands.ProcessPaymentCommand;
 import com.appsdeveloperblog.core.dto.commands.ReserveProductCommand;
 import com.appsdeveloperblog.core.events.OrderApprovedEvent;
 import com.appsdeveloperblog.core.events.OrderCreatedEvent;
+import com.appsdeveloperblog.core.events.PaymentFailedEvent;
 import com.appsdeveloperblog.core.events.PaymentProcessedEvent;
 import com.appsdeveloperblog.core.events.ProductReservedEvent;
 import com.appsdeveloperblog.orders.service.OrderHistoryService;
@@ -70,6 +72,13 @@ public class OrderSaga {
     @KafkaHandler
     public void handleEvent(@Payload OrderApprovedEvent event) {
         orderHistoryService.add(event.getOrderId(), APPROVED);
+    }
+
+    @KafkaHandler
+    public void handelEvent(@Payload PaymentFailedEvent event) {
+        CancelProductReservationCommand cancelProductReservationCommand = new CancelProductReservationCommand();
+        BeanUtils.copyProperties(event, cancelProductReservationCommand);
+        kafkaTemplate.send(productsCommandsTopicName, cancelProductReservationCommand);
     }
 
 }
