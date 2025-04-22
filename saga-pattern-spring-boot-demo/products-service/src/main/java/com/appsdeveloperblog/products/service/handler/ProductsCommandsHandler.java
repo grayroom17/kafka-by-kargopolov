@@ -57,7 +57,7 @@ public class ProductsCommandsHandler {
 
     @KafkaHandler
     public void handleCommand(@Payload CancelProductReservationCommand command) {
-        Product productToCancel = new Product(command.getProductId(), command.getPruductQuantity());
+        Product productToCancel = new Product(command.getProductId(), command.getProductQuantity());
         productService.cancelReservation(productToCancel, command.getOrderId());
         ProductReservationCancelledEvent productReservationCancelledEvent = new ProductReservationCancelledEvent(command.getProductId(), command.getOrderId());
         kafkaTemplate.send(productEventsTopicName, productReservationCancelledEvent);
