@@ -6,15 +6,15 @@ public class CancelProductReservationCommand {
 
     private UUID productId;
     private UUID orderId;
-    private Integer pruductQuantity;
+    private Integer productQuantity;
 
     public CancelProductReservationCommand() {
     }
 
-    public CancelProductReservationCommand(UUID productId, UUID orderId, Integer pruductQuantity) {
+    public CancelProductReservationCommand(UUID productId, UUID orderId, Integer productQuantity) {
         this.productId = productId;
         this.orderId = orderId;
-        this.pruductQuantity = pruductQuantity;
+        this.productQuantity = productQuantity;
     }
 
     public UUID getProductId() {
@@ -33,12 +33,12 @@ public class CancelProductReservationCommand {
         this.orderId = orderId;
     }
 
-    public Integer getPruductQuantity() {
-        return pruductQuantity;
+    public Integer getProductQuantity() {
+        return productQuantity;
     }
 
-    public void setPruductQuantity(Integer pruductQuantity) {
-        this.pruductQuantity = pruductQuantity;
+    public void setProductQuantity(Integer productQuantity) {
+        this.productQuantity = productQuantity;
     }
 
 }
